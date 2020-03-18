@@ -1,0 +1,11 @@
+/.cvsignore////*///
+/Makefile.am////*///
+/config.guess////*///
+/config.rpath////*///
+/config.sub////*///
+/depcomp////*///
+/gdlib-config.in////*///
+/install-sh////*///
+/ltmain.sh////*///
+/missing////*///
+/mkinstalldirs////*///

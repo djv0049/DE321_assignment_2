@@ -1,0 +1,28 @@
+  package ara.djv0049;
+
+public class Ex14Controller extends Controller {
+
+	public Ex14Controller(View theView) {
+		super(theView);
+	}
+	@Override
+	public void doStuff() {
+		Model model = new Model();
+		int max = 20;
+		int previousNum1 = 0;
+		int previousNum2 = 0;
+		int fibNum = 1;
+		double sum = 0;
+		for(int i = 1; i <= max; i++) {
+			this.myView.say(fibNum);
+			sum +=  fibNum;
+			previousNum1 = previousNum2;
+			previousNum2 = fibNum;
+			fibNum = model.fibonacci(previousNum1, previousNum2);
+		}
+		double average = sum/max;
+		this.myView.say("the average is " + average);
+
+	}
+
+}

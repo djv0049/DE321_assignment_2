@@ -1,0 +1,7 @@
+/.cvsignore////*///
+/Makefile.am////*///
+/gdtest.gd2////*///
+/gdtest.png////*///
+/gdtest_200_300_150_100.png////*///
+/gdtest_merge.png////*///
+/gdtest_wbmp_to_png.png////*///
