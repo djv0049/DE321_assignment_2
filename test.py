@@ -1,12 +1,11 @@
-#import pylint
-#from pylint import pyreverse
+# import pylint
+# from pylint import pyreverse
+import json
 import subprocess
 import shlex
 import os  # gives access to terminal
 
-### to run this program, the user must have pip installed pylint to their env
-
-# split all this crap into methods
+# to run this program, the user must have pip installed pylint to their env
 
 # absolute path to the current file
 script_path = os.path.abspath(__file__)
@@ -22,7 +21,6 @@ dot_file_path = (script_dir + "\\graphviz-2.38\\release\\bin\\dot.exe")
 
 # the destination file and any extras
 args = shlex.split('src_code.py')
-args += shlex.split()
 try:  # reads, analyses, and creates .dot file from the destination file
 
     subprocess.call(['pyreverse'] + args)
@@ -36,6 +34,9 @@ subprocess.call([dot_file_path] + args)
 
 print("done")
 
-def getPythonSrc():
-    script_path = os.path.abspath(__file__)
-    script_dir = os.path.split(script_path)[0]
+print("start phase 2")
+
+# here i will try to read a file, extract the data within, and use it for the command line
+with open('config.json') as config:
+    data = json.load(config)
+print(data["paths"]["source_code"])
