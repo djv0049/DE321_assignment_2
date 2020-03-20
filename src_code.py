@@ -1,23 +1,61 @@
-
-# python program one
-
-
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-        self.eye_color = "red"
-        self.height = 1
-
-    def change_name(self, new_name):
-        self.previous_name = self.name
-        self.name = new_name
-
-    def grow(self):
-        print("hi")
+# from abstract_classes import Hospital
 
 
-p1 = Person("John", 36)
+class Hospital(object):
+    """
+    Parent class
+    """
 
-print(type(p1.name))
-print(p1.age)
+    def __init__(self, employee_name, employee_id):
+        self.name = employee_name
+        self.id = employee_id
+
+    def __str__(self):
+        print(f"I am {self.name}. I am a {self.id}.")
+
+
+class Doctor(Hospital):
+    """
+    child class 1
+    """
+
+    def __init__(self, employee_name, employee_id, a_salary):
+        super().__init__(employee_name, employee_id)
+        self.salary = a_salary
+        # self.hour = work_hour
+
+    def annual_pay(self):
+        print(self.salary)
+
+    def calculate_payroll(self):
+        print(f'Calculating Payroll of {self.name}')
+        print('===================================================================')
+        print(
+            f'Payroll for: {self.id}, {self.name}, is {self.salary} annually.')
+        print('=================================================================== \n')
+
+
+class Nurse(Hospital):
+    """
+    child class 2
+    """
+
+    def __init__(self, employee_name, employee_id, a_salary):
+        super().__init__(employee_name, employee_id)
+        self.salary = a_salary
+
+    def annual_pay(self):
+        print(self.salary)
+
+    def calculate_payroll(self):
+        print(f'Calculating Payroll of {self.name}')
+        print('===================================================================')
+        print(
+            f'Payroll for: {self.id}, {self.name}, is {self.salary} annually.')
+        print('=================================================================== \n')
+
+
+class Test_class:
+    '''
+    classs to test regex
+    '''
