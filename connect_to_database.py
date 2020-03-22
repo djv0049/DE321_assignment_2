@@ -26,8 +26,8 @@ def connect(db=None):
 
 def json_extract(component='db_commands'):
     '''
-    # this works
-    tests to make sure that the method gets a dictionary from json by default
+
+    make sure that the method gets a dictionary from json by default
     >>> type(json_extract())
     <class 'dict'>
 
@@ -138,3 +138,4 @@ if __name__ == "__main__":
     connetion = connect()
     make_tables(connetion)
     select_from_sql(connetion)
+    print('database done')
