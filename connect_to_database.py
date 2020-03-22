@@ -14,7 +14,7 @@ from shlex import split
 # create database
 
 def connect(db=None):
-    if db == None:
+    if db is None:
         js = json_extract()
         db = js['db']
     try:
@@ -42,7 +42,8 @@ def json_extract(component='db_commands'):
     return result
 
 
-def make_tables(connection):  # uses regex to read a dot file, and creates tables from data
+# uses regex to read a dot file, and creates tables from data
+def make_tables(connection):
     dot_file = ''
     classes_data = []
 
@@ -60,8 +61,8 @@ def make_tables(connection):  # uses regex to read a dot file, and creates table
                 # [1] has attributes separated by \\l
                 # [2] has functions separated by \\l
                 if(splited.__len__() > 2):
-                    class_name = findall('\w*$', splited[0])[0]
-                    attributes = findall('(.*?)\\\\l', splited[1])
+                    class_name = findall(r'\w*$', splited[0])[0]
+                    attributes = findall(r'(.*?)\\\\l', splited[1])
                     methods = findall('(.*?)\\\\l', splited[2])
                     temp_list = []
                     temp_list.append(class_name)
@@ -69,7 +70,8 @@ def make_tables(connection):  # uses regex to read a dot file, and creates table
                     temp_list.append(methods)
                     classes_data.append(temp_list)
                     (
-                        {'name': class_name, 'atts': attributes, 'defs': methods})
+                        {'name': class_name, 'atts': attributes,
+                            'defs': methods})
 
     except(FileNotFoundError):
         print("this file does not exist")
@@ -86,7 +88,8 @@ def make_tables(connection):  # uses regex to read a dot file, and creates table
     except(KeyError):
         print('the config file has an error at "db_commands"["create_table"]')
     except(sqlite3.OperationalError):
-        print("this table already exists, try deleting the table. this will be due to an inconsistency in the config file")
+        print('this table already exists, try deleting the table. this will be')
+        print('due to an inconsistency in the config file')
 
     if(table_exists):
         add_data(classes_data)
@@ -102,11 +105,11 @@ def add_data(classes_data):
                 for individual_attribute in section:
                     attribute_list += individual_attribute + " "
                 att_str.append(attribute_list)
-
             else:
                 att_str.append(section.__str__())
         print(att_str)
-        if(att_str.__len__() == 3):  # double checking that there are 3 values in the object
+        # double checking that there are 3 values in the object
+        if(att_str.__len__() == 3):
             inputcommand = command['insert'] + command['table_name'] + \
                 'Values(" ' + att_str[0] + '","' + \
                 att_str[1] + '"," ' + att_str[2] + '"); '
@@ -127,10 +130,12 @@ def select_from_sql(connection):
     print('done')
     # somehow format the data from database and .dot file into a medium format
 
-    # somehow validate the data extracted from the database is the same as the data in the classes.dot file
+    # somehow validate the data extracted from the database
+    # is the same as the data in the classes.dot file
 
     # tell the cmd that the task is done
-    # hard coded values to be fixed with variables and assert/try-catch statements to make sure value is correct
+    # hard coded values to be fixed with variables and assert/try-catch
+    # statements to make sure value is correct
 
 
 if __name__ == "__main__":

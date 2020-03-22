@@ -1,0 +1,26 @@
+{
+    "mysql": {
+        "host": "localhost",
+        "user": "root",
+        "password": "my secret password"
+    },
+    "paths": {
+        "dot.exe": "\\graphviz-2.38\\release\\bin\\dot.exe",
+        "source_code": "src_code.py",
+        "dot_file": "classes.dot"
+    },
+    "db_commands": {
+        "db": "myClasses.db",
+        "table_name": "Classes ",
+        "database": "myClasses ",
+        "delete": "DROP DATABASE ",
+        "delete_table": "DROP TABLE IF EXISTS ",
+        "create_table": "CREATE TABLE Classes (name, attributes, methods) ",
+        "insert": "INSERT INTO  ",
+        "select": "SELECT * FROM "
+    },
+    "json_test": {
+        "item_one": "one",
+        "item_two": "two"
+    }
+}
