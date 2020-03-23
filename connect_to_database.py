@@ -14,7 +14,14 @@ from shlex import split
 # create database
 
 def connect(db=None):
-    if db is None:
+    '''
+    >>> type(connect())
+    <class 'sqlite3.Connection'>
+
+
+    '''
+    #  assert(db is None)
+    if (db is None):
         js = json_extract()
         db = js['db']
     try:
@@ -56,23 +63,24 @@ def make_tables(connection):
         with open(dot_file) as d:
             from re import findall
             from re import split
-            for x in d:
-                splited = split("\|", x)  # [0] ends with class name,
-                # [1] has attributes separated by \\l
-                # [2] has functions separated by \\l
-                if(splited.__len__() > 2):
-                    class_name = findall(r'\w*$', splited[0])[0]
-                    attributes = findall(r'(.*?)\\\\l', splited[1])
-                    methods = findall('(.*?)\\\\l', splited[2])
-                    temp_list = []
-                    temp_list.append(class_name)
-                    temp_list.append(attributes)
-                    temp_list.append(methods)
-                    classes_data.append(temp_list)
-                    (
-                        {'name': class_name, 'atts': attributes,
-                            'defs': methods})
-
+    except(FileNotFoundError):
+        print("could not find file at " + dot_file)
+        for x in d:
+            splited = split("\|", x)  # [0] ends with class name,
+            # [1] has attributes separated by \\l
+            # [2] has functions separated by \\l
+            if(splited.__len__() > 2):
+                class_name = findall(r'\w*$', splited[0])[0]
+                attributes = findall(r'(.*?)\\\\l', splited[1])
+                methods = findall('(.*?)\\\\l', splited[2])
+                temp_list = []
+                temp_list.append(class_name)
+                temp_list.append(attributes)
+                temp_list.append(methods)
+                classes_data.append(temp_list)
+                (
+                    {'name': class_name, 'atts': attributes,
+                     'defs': methods})
     except(FileNotFoundError):
         print("this file does not exist")
     command = json_extract('db_commands')
@@ -88,7 +96,7 @@ def make_tables(connection):
     except(KeyError):
         print('the config file has an error at "db_commands"["create_table"]')
     except(sqlite3.OperationalError):
-        print('this table already exists, try deleting the table. this will be')
+        print('this table already exists, try deleting the table')
         print('due to an inconsistency in the config file')
 
     if(table_exists):
@@ -99,6 +107,7 @@ def add_data(classes_data):
     command = json_extract()
     for obj in classes_data:
         att_str = []
+        # first, get data from dot file
         for section in obj:
             if(type(section) != str):
                 attribute_list = ""
@@ -108,7 +117,7 @@ def add_data(classes_data):
             else:
                 att_str.append(section.__str__())
         print(att_str)
-        # double checking that there are 3 values in the object
+        # then, add to database
         if(att_str.__len__() == 3):
             inputcommand = command['insert'] + command['table_name'] + \
                 'Values(" ' + att_str[0] + '","' + \
@@ -124,10 +133,11 @@ def select_from_sql(connection):
         cursor = connection.cursor()
         command = json_extract()
         cursor.execute(command['select'] + command['table_name'])
-        print(cursor.fetchall())
+        result = cursor.fetchall()
     except:
-        print("last error")
-    print('done')
+        print("there is an error selecting from the database")
+        result = []
+    return result
     # somehow format the data from database and .dot file into a medium format
 
     # somehow validate the data extracted from the database
@@ -142,5 +152,10 @@ if __name__ == "__main__":
     doctest.testmod()
     connetion = connect()
     make_tables(connetion)
-    select_from_sql(connetion)
-    print('database done')
+    data = select_from_sql(connetion)
+    if(data.__len__() > 1):
+        print(data)
+        print('\ndatabase complete')
+    else:
+        print(data)
+        print("the database is empty")
