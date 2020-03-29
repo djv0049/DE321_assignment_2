@@ -28,12 +28,12 @@ def connect(db=None):
         connection = sqlite3.connect(db)
     except():
         print("error at creating database")
+
     return connection
 
 
 def json_extract(component='db_commands'):
     '''
-
     make sure that the method gets a dictionary from json by default
     >>> type(json_extract())
     <class 'dict'>
@@ -58,31 +58,30 @@ def make_tables(connection):
         paths = json_extract('paths')
         dot_file = paths['dot_file']
     except(KeyError):
-        print("this object doesn't exist in the config file")
+        print(" the dot file doesn't exist in the config file")
     try:  # using regex to read .dot file
         with open(dot_file) as d:
             from re import findall
             from re import split
-    except(FileNotFoundError):
-        print("could not find file at " + dot_file)
-        for x in d:
-            splited = split("\|", x)  # [0] ends with class name,
-            # [1] has attributes separated by \\l
-            # [2] has functions separated by \\l
-            if(splited.__len__() > 2):
-                class_name = findall(r'\w*$', splited[0])[0]
-                attributes = findall(r'(.*?)\\\\l', splited[1])
-                methods = findall('(.*?)\\\\l', splited[2])
-                temp_list = []
-                temp_list.append(class_name)
-                temp_list.append(attributes)
-                temp_list.append(methods)
-                classes_data.append(temp_list)
-                (
-                    {'name': class_name, 'atts': attributes,
-                     'defs': methods})
+            for x in d:
+                splited = split("\|", x)  # [0] ends with class name,
+                # [1] has attributes separated by \\l
+                # [2] has functions separated by \\l
+                if(splited.__len__() > 2):
+                    class_name = findall(r'\w*$', splited[0])[0]
+                    attributes = findall('(.*?)\\\\l', splited[1])
+                    methods = findall('(.*?)\\\\l', splited[2])
+                    temp_list = []
+                    temp_list.append(class_name)
+                    temp_list.append(attributes)
+                    temp_list.append(methods)
+                    classes_data.append(temp_list)
+                    (
+                        {'name': class_name, 'atts': attributes,
+                         'defs': methods})
     except(FileNotFoundError):
         print("this file does not exist")
+        return
     command = json_extract('db_commands')
     table_exists = False
     try:
@@ -116,13 +115,11 @@ def add_data(classes_data):
                 att_str.append(attribute_list)
             else:
                 att_str.append(section.__str__())
-        print(att_str)
         # then, add to database
         if(att_str.__len__() == 3):
             inputcommand = command['insert'] + command['table_name'] + \
                 'Values(" ' + att_str[0] + '","' + \
                 att_str[1] + '"," ' + att_str[2] + '"); '
-            print(inputcommand)
             connetion.execute(inputcommand)
 
 
@@ -138,14 +135,6 @@ def select_from_sql(connection):
         print("there is an error selecting from the database")
         result = []
     return result
-    # somehow format the data from database and .dot file into a medium format
-
-    # somehow validate the data extracted from the database
-    # is the same as the data in the classes.dot file
-
-    # tell the cmd that the task is done
-    # hard coded values to be fixed with variables and assert/try-catch
-    # statements to make sure value is correct
 
 
 if __name__ == "__main__":
@@ -154,6 +143,7 @@ if __name__ == "__main__":
     make_tables(connetion)
     data = select_from_sql(connetion)
     if(data.__len__() > 1):
+        print("the data in the database is :\n")
         print(data)
         print('\ndatabase complete')
     else:

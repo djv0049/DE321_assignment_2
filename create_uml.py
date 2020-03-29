@@ -22,7 +22,6 @@ def main():
     system('cd ' + script_dir)
     dot_file_path = (script_dir + "\\" + json_extract('paths')['dot.exe'])
     destination_file = json_extract('paths')['dot_file']
-    print(argv.__len__())
     args = ""
     if argv.__len__() < 2:
         args = '-Tpng -omy_classes.png'
@@ -33,7 +32,7 @@ def main():
     ar = [dot_file_path]+[destination_file] + split(args)
     try:
         sub_call(ar)
-        print('uml done')
+        print('uml created')
     except(PermissionError):
         print("you don't Hve valid permissions to create this file")
     except(FileNotFoundError):

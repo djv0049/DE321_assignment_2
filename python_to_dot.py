@@ -19,4 +19,4 @@ if __name__ == "__main__":
     except ValueError as e:  # if not, gives error message
         print('there was a problem converting the .py file with pyreverse', e)
 
-    print("dot created  ")
+    print("dot file created")
