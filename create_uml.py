@@ -36,7 +36,7 @@ def main():
     except(PermissionError):
         print("you don't Hve valid permissions to create this file")
     except(FileNotFoundError):
-        print("cannof find file at " + ar)
+        print("cannot find file at " + ar)
 
 
 if __name__ == "__main__":

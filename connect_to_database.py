@@ -18,17 +18,17 @@ def connect(db=None):
     >>> type(connect())
     <class 'sqlite3.Connection'>
 
-
     '''
+    connection = None
     #  assert(db is None)
     if (db is None):
         js = json_extract()
         db = js['db']
+
     try:
         connection = sqlite3.connect(db)
     except():
         print("error at creating database")
-
     return connection
 
 
@@ -41,24 +41,46 @@ def json_extract(component='db_commands'):
     >>> json_extract('json_test')
     {'item_one': 'one', 'item_two': 'two'}
 
+    >>> json_extract('bad_data')
+    bad_data does not exist in config file
     '''
 
-    with open('config.json') as config:
-        result = json.load(config)
-        result = result[component]
+    result = None
+    try:
+        with open('config.json') as config:
+            whole_file = json.load(config)
+            result = whole_file[component]
+    except(KeyError):
+        print(component + " does not exist in config file")
     return result
 
 
 # uses regex to read a dot file, and creates tables from data
 def make_tables(connection):
+    '''
+    >>> make_tables()
+    Traceback (most recent call last):
+      File "%\\doctest.py", line 1329, in __run
+        compileflags, 1), test.globs)
+      File "<doctest __main__.make_tables[0]>", line 1, in <module>
+        make_tables()
+    TypeError: make_tables() missing 1 required positional argument: 'connection'
+
+
+    '''
     dot_file = ''
     classes_data = []
-
     try:
         paths = json_extract('paths')
         dot_file = paths['dot_file']
     except(KeyError):
         print(" the dot file doesn't exist in the config file")
+        return
+    except(TypeError):
+        print("there is an issue with the config file")
+        print("the paths segment cannot be found")
+        return
+
     try:  # using regex to read .dot file
         with open(dot_file) as d:
             from re import findall
@@ -85,10 +107,15 @@ def make_tables(connection):
     command = json_extract('db_commands')
     table_exists = False
     try:
+        assert command['delete_table'] == "DROP TABLE IF EXISTS "
         connetion.execute(command['delete_table'] + command['table_name'])
         table_exists = False
     except(KeyError):
-        print('the config file has an error at "db_commands"["delete_table"]')
+        print(
+            'the config file has an error at "db_commands"["delete_table"] or [table_name]')
+    except(AssertionError):
+        print("delete command has been changed, " +
+              command['delete_table'] + " should be  DROP TABLE IF EXISTS ")
     try:
         connection.execute(command['create_table'])
         table_exists = True
@@ -103,6 +130,16 @@ def make_tables(connection):
 
 
 def add_data(classes_data):
+    '''
+    >>> add_data()
+    Traceback (most recent call last):
+      File "%\\doctest.py", line 1329, in __run
+        compileflags, 1), test.globs)
+      File "<doctest __main__.add_data[0]>", line 1, in <module>
+        add_data()
+    TypeError: add_data() missing 1 required positional argument: 'classes_data'
+    '''
+
     command = json_extract()
     for obj in classes_data:
         att_str = []
