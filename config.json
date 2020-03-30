@@ -9,7 +9,7 @@
         "table_name": "Classes ",
         "database": "myClasses ",
         "delete": "DROP DATABASE ",
-        "delete_table": "DROP TABLE IFEXISTS ",
+        "delete_table": "DROP TABLE IF EXISTS ",
         "create_table": "CREATE TABLE Classes (name, attributes, methods) ",
         "insert": "INSERT INTO  ",
         "select": "SELECT * FROM "

@@ -29,10 +29,10 @@ class Doctor(Hospital):
 
     def calculate_payroll(self):
         print(f'Calculating Payroll of {self.name}')
-        print('===================================================================')
+        print('==========================================================')
         print(
             f'Payroll for: {self.id}, {self.name}, is {self.salary} annually.')
-        print('=================================================================== \n')
+        print('======================================================== \n')
 
 
 class Nurse(Hospital):
@@ -49,10 +49,10 @@ class Nurse(Hospital):
 
     def calculate_payroll(self):
         print(f'Calculating Payroll of {self.name}')
-        print('===================================================================')
+        print('==========================================================')
         print(
             f'Payroll for: {self.id}, {self.name}, is {self.salary} annually.')
-        print('=================================================================== \n')
+        print('======================================================= \n')
 
 
 class Test_class:

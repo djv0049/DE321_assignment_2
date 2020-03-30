@@ -64,7 +64,8 @@ def make_tables(connection):
         compileflags, 1), test.globs)
       File "<doctest __main__.make_tables[0]>", line 1, in <module>
         make_tables()
-    TypeError: make_tables() missing 1 required positional argument: 'connection'
+    TypeError: make_tables() missing 1 required positional argument:\
+ 'connection'
 
 
     '''
@@ -112,7 +113,8 @@ def make_tables(connection):
         table_exists = False
     except(KeyError):
         print(
-            'the config file has an error at "db_commands"["delete_table"] or [table_name]')
+            'the config file has an error at "db_commands"["delete_table"] ')
+        print('or [table_name]')
     except(AssertionError):
         print("delete command has been changed, " +
               command['delete_table'] + " should be  DROP TABLE IF EXISTS ")
@@ -137,7 +139,8 @@ def add_data(classes_data):
         compileflags, 1), test.globs)
       File "<doctest __main__.add_data[0]>", line 1, in <module>
         add_data()
-    TypeError: add_data() missing 1 required positional argument: 'classes_data'
+    TypeError: add_data() missing 1 required positional argument: \
+'classes_data'
     '''
 
     command = json_extract()
