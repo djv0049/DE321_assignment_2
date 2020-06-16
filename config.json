@@ -1,7 +1,7 @@
 {
     "paths": {
         "dot.exe": "\\graphviz-2.38\\release\\bin\\dot.exe",
-        "source_code": "src_code.py",
+        "source_code": "src_code_copy.py",
         "dot_file": "classes.dot"
     },
     "db_commands": {

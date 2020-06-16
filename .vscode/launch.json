@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: Start",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "C:\\Users\\danie\"\\OneDrive - Ara Institute of Canterbury\"\\Ara\"\\Semester 4\"\\AdvancedProgramming\\Assesment_2\\DE321_assignment_2\\Start.py",
             "console": "integratedTerminal"
         }
     ]

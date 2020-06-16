@@ -3,20 +3,27 @@ from os import system
 from shlex import split
 from json import load
 from subprocess import call
+from Imodel import Model
 
 
-def json_extract(component='db_commands'):
-    with open('config.json') as config:
-        result = load(config)
-        result = result[component]
-    return result
+class Dot_file(Model):
 
+    def __init__(self):
+        Model().__init__()
+        self.error = ""
 
-if __name__ == "__main__":
-    args = split(json_extract('paths')['source_code'])
-    try:  # reads, analyses, and creates .dot file from the destination file
-        call(['pyreverse'] + args)
-    except ValueError as e:  # if not, gives error message
-        print('there was a problem converting the .py file with pyreverse', e)
+    def run(self):
+        args = split(self.json_extract('paths')['source_code'])
+        self.error += str(self.create_dot_file(args))
 
-    print("dot file created")
+    def json_extract(self, component='db_commands'):
+        with open('config.json') as config:
+            result = load(config)
+            result = result[component]
+        return result
+
+    def create_dot_file(self, args):
+        try:  # reads, analyses, and creates .dot file from the destination file
+            call(['pyreverse'] + args)
+        except ValueError as e:  # if not, gives error message
+            return('there was a problem converting the .py file with pyreverse', e)

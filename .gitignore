@@ -5,3 +5,13 @@ docStringTest.py
 my_classes.png
 classes.dot
 runner.py
+__pycache__/Command.cpython-37.pyc
+__pycache__/connect_to_database.cpython-37.pyc
+__pycache__/Imodel.cpython-37.pyc
+__pycache__/create_uml.cpython-37.pyc
+__pycache__/python_to_dot.cpython-37.pyc
+__pycache__/runner.cpython-37.pyc
+__pycache__/src_code.cpython-37.pyc
+
+self_reflection.docx
+~$lf_reflection.docx

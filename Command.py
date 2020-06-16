@@ -11,13 +11,15 @@ class CommandLineInterface(Cmd):
     prompt = '>>>'
     file = None
 
-    def __init__(self):
+    def __init__(self, controller):
         Cmd.__init__(self)
         self.name = "unknown"
+        self.runner = controller
+        self.cmdloop()
 
     def default(self, arg):
-        print(arg)
-        print(' is an incorrect command. Type ? or help to see command list')
+        self.say(arg)
+        self.say(' is an incorrect command. Type ? or help to see command list')
 
     def do_introduce(self, unknown_name):
         """
@@ -27,21 +29,21 @@ class CommandLineInterface(Cmd):
         """
         if unknown_name == 'me':
             try:
-                print('Welcome')
+                self.say('Welcome')
                 if unknown_name:
                     unknown_name = (input("Please enter you name: "))
-                    print('Hello ' + unknown_name)
+                    self.say('Hello ' + unknown_name)
                 else:
-                    print('Hello ' + self.name)
+                    self.say('Hello ' + self.name)
             except ValueError as e:
-                print(f'The exception is: {e}')
+                self.say(f'The exception is: {e}')
             except KeyError as e:
-                print(f'{e}: Not a command')
+                self.say(f'{e}: Not a command')
             finally:
-                print('Type help or ? to see more available commands.')
+                self.say('Type help or ? to see more available commands.')
         else:
             message = "Incorrect syntax. Type: [Introduce me]"
-            print(message)
+            self.say(message)
 
     def do_pickle(self, arg):
         """
@@ -53,9 +55,9 @@ class CommandLineInterface(Cmd):
             from pickling import Pickling
             Pickling(arg, input("Please enter the name of file: ")).pickle_it()
         except TypeError as e:
-            print(e)
+            self.say(e)
         except():
-            print("Error!!")
+            self.say("Error!!")
 
     def do_unpickle(self, arg):
         """
@@ -65,11 +67,11 @@ class CommandLineInterface(Cmd):
         try:
             from pickling import Pickling
             Pickling('output.pickle', arg).unpickle_it()
-            print('The pickled file has been un-pickled')
+            self.say('The pickled file has been un-pickled')
         except FileNotFoundError as e:
-            print(e)
+            self.say(e)
         except():
-            print("Error!!")
+            self.say("Error!!")
 
     def do_pickle_delete(self, arg):
         """
@@ -81,7 +83,7 @@ class CommandLineInterface(Cmd):
             from pickling import Pickling
             Pickling('exp', arg).delete_it()
         except FileNotFoundError as err:
-            print(err)
+            self.say(err)
 
     def do_create_dot_file(self, arg):
         """
@@ -89,13 +91,13 @@ class CommandLineInterface(Cmd):
         Syntax:
         """
         try:
-            from runner import Runner
+
             # name = input("Enter diagram image name: ")
-            Runner().make_dot_file()
+            self.runner.make_dot_file()
         except ImportError as e:
-            print(e)
+            self.say(e)
         except():
-            print("Error!!")
+            self.say("Error!!")
 
     def do_create_uml(self, arg):
         """
@@ -103,12 +105,9 @@ class CommandLineInterface(Cmd):
         Syntax:
         """
         try:
-            from runner import Runner
-            Runner().make_uml_diagram()
-        except ImportError as e:
-            print(e)
+            self.runner.make_uml_diagram()
         except():
-            print("Error!!")
+            self.say("Error!!")
 
     def do_load(self, name):
         """
@@ -116,21 +115,18 @@ class CommandLineInterface(Cmd):
         Syntax: load
         """
         try:
-            from runner import Runner
-            Runner().run()
-        except ImportError as e:
-            print(e)
+            self.runner.run()
+
         except():
-            print('Loading failed')
+            self.say('Loading failed')
 
     def do_exit(self, arg):
         """
         Stop the program
         syntax: exit
         """
-        print('Thank you for visiting.')
+        self.say('Thank you for visiting.')
         return True
 
-
-if __name__ == '__main__':
-    CommandLineInterface().cmdloop()
+    def say(self, message):
+        print(message)
