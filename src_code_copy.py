@@ -1,10 +1,5 @@
 # phython pure abstract superclass / interface for runer objects
-from Imodel import Model
-from create_uml import Uml
-from python_to_dot import Dot_file
-from Command import CommandLineInterface
-from connect_to_database import Database_connector
-from cmd import Cmd
+
 from os import path
 import doctest  # not doing much yet
 import sqlite3  # database interactions

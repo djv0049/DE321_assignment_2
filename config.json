@@ -14,6 +14,9 @@
         "insert": "INSERT INTO  ",
         "select": "SELECT * FROM "
     },
+    "misc": {
+        "py_to_dot_args": " -A"
+    },
     "json_test": {
         "item_one": "one",
         "item_two": "two"
